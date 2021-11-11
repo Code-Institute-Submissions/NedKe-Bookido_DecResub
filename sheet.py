@@ -30,10 +30,10 @@ class Product(BaseModel):
     time: str
     emails: str
 
+
 class ProductRow(BaseModel):
     row_num: int
     product: Product
-
 
 
 def add_product(product):
@@ -55,6 +55,7 @@ def add_product(product):
     }
     add_event(event)
 
+
 def convert_to_gcalendar_friendly_date(date, time):
     return f'{date}T{time}{GMT_OFF}'
 
@@ -62,10 +63,18 @@ def convert_to_gcalendar_friendly_date(date, time):
 def new_product_id():
     return str(len(products_sheet.get_all_records()))
 
+
 def generate_calendar_id():
     return str(uuid.uuid4()).replace('-', '')
+
 
 def list_products():
     products = products_sheet.get_all_records()
     return [ProductRow(row_num=i+2, product=Product(id=p['id'], calendar_id=p['calendar_id'], title=p['title'], description=p['description'], address=p['address'], capacity=p['capacity'], price=p['price'], date=p['date'], time=p['time'], emails=p['emails'])) for i, p in enumerate(products)]
 
+
+def add_product_raw(title, description, address, price, capacity, date, time):
+    calendar_id = generate_calendar_id()
+    product_id = new_product_id()
+    sample_product = Product(id=product_id, calendar_id=calendar_id, title=title, description=description, address=address, price=price, capacity=capacity, date=date, time=time, emails='')
+    add_product(sample_product)
