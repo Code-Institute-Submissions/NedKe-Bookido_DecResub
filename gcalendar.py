@@ -18,3 +18,13 @@ def add_event(event):
         calendarId=CAL_ID,
         sendNotifications=True, body=event
     ).execute()
+
+
+def update_event_description(event_id, description):
+    event = CAL.events().get(calendarId=CAL_ID, eventId=event_id).execute()
+    event['description'] = description
+    CAL.events().update(
+        calendarId=CAL_ID,
+        eventId=event_id,
+        body=event
+    ).execute()

@@ -3,7 +3,7 @@ from google.oauth2.service_account import Credentials
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 import uuid
-from gcalendar import add_event
+from gcalendar import add_event, update_event_description
 
 SCOPES_SHEETS = [
     'https://www.googleapis.com/auth/spreadsheets',
@@ -34,6 +34,47 @@ class Product(BaseModel):
 class ProductRow(BaseModel):
     row_num: int
     product: Product
+
+
+class ProductNotFoundException(Exception):
+    pass
+
+
+class CapacityReachedException(Exception):
+    pass
+
+
+def add_booking(product_id, email):
+    # check if capacity is reached and if not
+    # add one to capacity
+    # update emails in the spread sheet on that bookinig
+    # update the calendar with that email and number of new attendants
+    # create an event on that emails g calendar
+
+    product_row = get_product_row(product_id)
+    product = product_row.product
+    emails = product.emails.split(',') if product.emails != '' else []
+    if len(emails) > int(product.capacity) - 1:
+        raise CapacityReachedException("capacity reached")
+    emails.append(email)
+
+    print(emails)
+    emails_to_store = email if len(emails) == 1 else ','.join(emails)
+    products_sheet.update_cell(product_row.row_num, 10, emails_to_store)
+    description = build_description(product.description, product.capacity, len(emails))
+    description += '\n' + '\n'.join(emails_to_store.split(','))
+    update_event_description(product.calendar_id, description)
+
+
+def get_product_row(product_id):
+    for product_row in list_products():
+        if product_row.product.id == product_id:
+            return product_row
+    raise ProductNotFoundException("product not found")
+
+
+def build_description(product_description, product_capacity, num_booked):
+    return f'{product_description} ({num_booked}/{product_capacity})'
 
 
 def add_product(product):
