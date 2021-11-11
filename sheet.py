@@ -18,11 +18,6 @@ SHEET = GSPREAD_CLIENT.open('fartoor_products')
 products_sheet = SHEET.worksheet('products')
 
 
-class ProductRow(BaseModel):
-    row_num: int
-    product: Product
-
-
 class Product(BaseModel):
     id: str
     calendar_id: str
@@ -34,6 +29,11 @@ class Product(BaseModel):
     date: str
     time: str
     emails: str
+
+class ProductRow(BaseModel):
+    row_num: int
+    product: Product
+
 
 
 def add_product(product):
@@ -64,3 +64,8 @@ def new_product_id():
 
 def generate_calendar_id():
     return str(uuid.uuid4()).replace('-', '')
+
+def list_products():
+    products = products_sheet.get_all_records()
+    return [ProductRow(row_num=i+2, product=Product(id=p['id'], calendar_id=p['calendar_id'], title=p['title'], description=p['description'], address=p['address'], capacity=p['capacity'], price=p['price'], date=p['date'], time=p['time'], emails=p['emails'])) for i, p in enumerate(products)]
+
