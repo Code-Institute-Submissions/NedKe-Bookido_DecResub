@@ -1,6 +1,7 @@
 import gspread
 from google.oauth2.service_account import Credentials
 from pydantic import BaseModel
+from datetime import datetime, timedelta
 import uuid
 from gcalendar import add_event
 
@@ -48,6 +49,9 @@ def add_product(product):
         }
     }
     add_event(event)
+
+def convert_to_gcalendar_friendly_date(date, time):
+    return f'{date}T{time}{GMT_OFF}'
 
 
 def new_product_id():
