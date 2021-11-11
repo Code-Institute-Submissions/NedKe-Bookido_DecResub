@@ -18,6 +18,11 @@ SHEET = GSPREAD_CLIENT.open('fartoor_products')
 products_sheet = SHEET.worksheet('products')
 
 
+class ProductRow(BaseModel):
+    row_num: int
+    product: Product
+
+
 class Product(BaseModel):
     id: str
     calendar_id: str
