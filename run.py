@@ -14,6 +14,7 @@ from utils import isValidEmail
 
 load_dotenv()
 
+
 def welcome_screen():
     """
     Welcomes the user and shows options to either book a product or as an admin
@@ -49,8 +50,8 @@ def welcome_screen():
 
 def add_product_prompt():
     """
-    Adds a product to the product catalog by asking the admin to add information
-    about that product
+    Adds a product to the product catalog by asking the admin to add
+    information about that product
     """
     print("\nAdding a new product. Please answer following questions:\n")
     title = input('Enter product title (Press "e" for welcome screen):\n')
@@ -90,9 +91,10 @@ def add_product_prompt():
             f'("e" for welcome screen):\n')
         exit_to_main_screen(time)
         if not re.match(r'\d{2}:\d{2}:\d{2}', date):
-            print('Please enter time in the format as this example: 13:00:00\n')
+            print('Please enter time in the format as '
+                  'this example: 13:00:00\n')
         if datetime.now() >= datetime.strptime(
-            f'{date} {time}', '%Y-%m-%d %H:%M:%S'):
+           f'{date} {time}', '%Y-%m-%d %H:%M:%S'):
             print('Enter a time that is later than current time\n')
         else:
             break
@@ -162,9 +164,10 @@ def customer_flow():
     print(f'Address: {selected_product.address}')
     print(f'Price: {selected_product.price} €')
     print(
-        '\nUpon continuing, your information will be saved in our datastore.\n')
-    chosen_option = input(
-        '(a): continue. (p): product menu, (e): welcome screen\n')
+        '\nUpon continuing, your information will be saved in '
+        'our datastore.\n')
+    chosen_option = input('(a): continue. (p): product menu, '
+                          '(e): welcome screen\n')
     exit_to_main_screen(chosen_option)
     exit_to_product_menu(chosen_option)
 
@@ -184,7 +187,8 @@ def customer_flow():
                 add_booking(chosen_product, customer_email)
             except CapacityReachedException:
                 print(
-                    '\nUnfortunately the capacity for this event is reached.\n')
+                    '\nUnfortunately the capacity for this event is '
+                    'reached.\n')
                 chosen_input = input(
                     '(p): Try another product, (e): Welcome screen\n')
                 exit_to_main_screen(chosen_input)
