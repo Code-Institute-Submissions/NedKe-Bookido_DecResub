@@ -1,10 +1,17 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
+"""
+run module is the main entry point of the application
+It provides a command line interface for admins to create new product and
+customers to book a product
+"""
+
 from sheet import list_products, add_booking, add_product_raw
 
 
 def splash():
+    """
+    Welcomes the user and shows options to either book a product or as an admin
+    to add a new product
+    """
     while True:
         chosen_option = input(
             'Press "b" to book a product or "a" for admin panel:\n\n')
