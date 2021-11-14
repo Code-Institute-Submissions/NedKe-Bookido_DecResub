@@ -4,7 +4,13 @@ It provides a command line interface for admins to create new product and
 customers to book a product
 """
 
-from sheet import list_products, add_booking, add_product_raw
+import re
+from datetime import datetime
+import os
+from dotenv import load_dotenv
+from sheet import list_products, add_booking, add_product_raw, \
+    CapacityReachedException, CustomerAlreadyRegistered
+from utils import isValidEmail
 
 
 def welcome_screen():
@@ -105,31 +111,85 @@ def add_product_prompt():
 
 
 def customer_flow():
-    print('Following is the list of products you can choose from:\n')
+    """
+    Goes through the process of booking a product for a customer by listing
+    available products for the user to choose, shows chosen
+    product's information such as description, address and price, and
+    get a customer's email address to book and confirm the product.
+    """
+    print('\nFollowing is the list of products you can choose from:\n')
     products = list_products()
     formatted_products_to_choose = ''
+    if len(products) == 0:
+        input(
+            'There no product available at this time. '
+            'Press any key for main screen:\n')
+        welcome_screen()
     for product_row in products:
-        formatted_products_to_choose += product_row.product.id + ': ' + product_row.product.title + '  '
+        formatted_products_to_choose += \
+            f'{product_row.product.id}: {product_row.product.title}\n'
     print(formatted_products_to_choose)
-    chosen_product = input(
-        'Choose the number in front of the product to book:\n')
-    selected_product = list(filter(lambda p: p.product.id == chosen_product, products))[0].product
+    chosen_product = None
+    while True:
+        chosen_product = input(
+            '\nChoose the number in front of the product to book '
+            '(e to show main screen):\n')
+        exit_to_main_screen(chosen_product)
+        if chosen_product not in list(map(lambda p: p.product.id, products)):
+            print('Wrong entry. Enter the number in front of the product')
+        else:
+            break
+    selected_product = list(
+        filter(
+            lambda p: p.product.id == chosen_product,
+            products))[0].product
 
     print(
-        f'{selected_product.title} is available on {selected_product.date} at {selected_product.time}')
-
+        f'\n{selected_product.title} is available on '
+        f'{selected_product.date} at {selected_product.time}')
+    print(f'Description: {selected_product.description}')
+    print(f'Address: {selected_product.address}')
+    print(f'Price: {selected_product.price} €')
+    print(
+        '\nUpon continuing, your information will be saved in our datastore.\n')
     chosen_option = input(
-        '(a): continue. (p): product menu, (b):welcome screen\n')
+        '(a): continue. (p): product menu, (e): welcome screen\n')
+    exit_to_main_screen(chosen_option)
+    exit_to_product_menu(chosen_option)
+
     if chosen_option == 'a':
-        customer_email = input('Enter your email address to book:\n')
-        # validate email
-        add_booking(chosen_product, customer_email)
+        customer_email = get_and_validate_email()
         print(
-            f'You are booked for {selected_product.title} on {selected_product.date} at {selected_product.time}')
-    if chosen_option == 'p':
-        show_products()
-    if chosen_option == 'b':
-        splash()
+            f'\nConfirm booking of {selected_product.title} '
+            f'on {selected_product.date} at {selected_product.time}?\n')
+        yes_no = input(
+            '(y): Yes, (n): No, (p): Product menu, (e): Welcome screen\n\n')
+        exit_to_product_menu(yes_no)
+        exit_to_main_screen(yes_no)
+
+        if yes_no.lower() == 'y':
+            print('Adding your booking, please wait ...')
+            try:
+                add_booking(chosen_product, customer_email)
+            except CapacityReachedException:
+                print(
+                    '\nUnfortunately the capacity for this event is reached.\n')
+                chosen_input = input(
+                    '(p): Try another product, (e): Welcome screen\n')
+                exit_to_main_screen(chosen_input)
+                exit_to_product_menu(chosen_input)
+            except CustomerAlreadyRegistered:
+                print('You are already booked for this product.')
+                user_input = input('(p): Product menu, (e): Welcome screen\n')
+                exit_to_product_menu(user_input)
+                exit_to_main_screen(user_input)
+            print(
+                f'You are booked for {selected_product.title} '
+                f'on {selected_product.date} at {selected_product.time}')
+            input('\nPress any key to go to welcome screen:\n')
+            welcome_screen()
+        else:
+            welcome_screen()
 
 
 def exit_to_main_screen(user_input):
