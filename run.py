@@ -19,6 +19,8 @@ def welcome_screen():
     Welcomes the user and shows options to either book a product or as an admin
     to add a new product
     """
+    print('Welcome to Bookido. Your hub to book amazing experiences ')
+    print('such as Wine testing, Massage, Tourism activities and so on.\n\n')
     while True:
         chosen_option = input(
             '\nPress "b" to book a product or "a" for admin panel:\n\n')
