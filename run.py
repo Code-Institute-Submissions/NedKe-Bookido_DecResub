@@ -150,4 +150,18 @@ def exit_to_product_menu(user_input):
         customer_flow()
 
 
+def get_and_validate_email():
+    """
+    Asks for user input for an email, valiate if it's in the correct format and
+    if not, it alerts that the format is wrong and asks the user again for an
+    email
+    """
+    while True:
+        customer_email = input('Enter your email address to book:\n')
+        if not isValidEmail(customer_email):
+            print('\nWrong email. Please try again!')
+        else:
+            return customer_email
+
+
 welcome_screen()
