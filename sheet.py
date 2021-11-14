@@ -1,8 +1,8 @@
+from datetime import datetime, timedelta
+import uuid
 import gspread
 from google.oauth2.service_account import Credentials
 from pydantic import BaseModel
-from datetime import datetime, timedelta
-import uuid
 from gcalendar import add_event, update_event_description
 
 SCOPES_SHEETS = [
