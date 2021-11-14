@@ -7,7 +7,7 @@ customers to book a product
 from sheet import list_products, add_booking, add_product_raw
 
 
-def splash():
+def welcome_screen():
     """
     Welcomes the user and shows options to either book a product or as an admin
     to add a new product
@@ -19,7 +19,7 @@ def splash():
         chosen_option = chosen_option.lower()
 
         if chosen_option == 'b':
-            show_products()
+            customer_flow()
             return False
         if chosen_option == 'a':
             password = input('Please enter password:\n')
@@ -28,16 +28,18 @@ def splash():
                 description = input('Enter product description:\n')
                 address = input('Enter product address:\n')
                 capacity = input('Enter product capaity:\n')
+                duration = input(
+                    '\nEnter product duration in minutes ("e" for welcome screen):\n')
                 price = input('Enter product price [0.2]:\n')
                 date = input('Enter product date [2021-11-11]:\n')
                 time = input('Enter product time [13:00:00]:\n')
-                add_product_raw(title, description, address, price, capacity, date, time)
+                add_product_raw(title, description, address, price, capacity, duration, date, time)
                 print('Product saved')
             return False
         print('You need to press "a" or "b"')
 
 
-def show_products():
+def customer_flow():
     print('Following is the list of products you can choose from:\n')
     products = list_products()
     formatted_products_to_choose = ''
@@ -65,4 +67,4 @@ def show_products():
         splash()
 
 
-splash()
+welcome_screen()

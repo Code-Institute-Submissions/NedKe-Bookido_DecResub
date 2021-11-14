@@ -28,6 +28,7 @@ class Product(BaseModel):
     description: str
     address: str
     capacity: str
+    duration: str
     price: str
     date: str
     time: str
@@ -154,10 +155,10 @@ def generate_calendar_id():
 
 def list_products():
     products = products_sheet.get_all_records()
-    return [ProductRow(row_num=i+2, product=Product(id=p['id'], calendar_id=p['calendar_id'], title=p['title'], description=p['description'], address=p['address'], capacity=p['capacity'], price=p['price'], date=p['date'], time=p['time'], emails=p['emails'])) for i, p in enumerate(products)]
+    return [ProductRow(row_num=i+2, product=Product(id=p['id'], calendar_id=p['calendar_id'], title=p['title'], description=p['description'], address=p['address'], capacity=p['capacity'], duration=p['duration'], price=p['price'], date=p['date'], time=p['time'], emails=p['emails'])) for i, p in enumerate(products)]
 
 
-def add_product_raw(title, description, address, price, capacity, date, time):
+def add_product_raw(title, description, address, price, capacity, duration, date, time):
     """
     Creates a new product model and stores it using add_product method
     :param title
@@ -165,10 +166,11 @@ def add_product_raw(title, description, address, price, capacity, date, time):
     :param address
     :param price
     :param capacity
+    :param duration
     :param date
     :param time
     """
     calendar_id = generate_calendar_id()
     product_id = generate_new_product_id()
-    new_product = Product(id=product_id, calendar_id=calendar_id, title=title, description=description, address=address, price=price, capacity=capacity, date=date, time=time, emails='')
+    new_product = Product(id=product_id, calendar_id=calendar_id, title=title, description=description, address=address, price=price, capacity=capacity, duration=duration, date=date, time=time, emails='')
     add_product(sample_product)
