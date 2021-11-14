@@ -29,11 +29,19 @@ def welcome_screen():
             customer_flow()
             return False
         if chosen_option == 'a':
-            password = input('Please enter password:\n')
-            if password == os.getenv('ADMIN_PASSWORD'):
-                add_product_prompt()
-
-            return False
+            attempts = 0
+            while True:
+                if attempts == 3:
+                    print('\nToo many wrong passwords. '
+                          'Try again at later time.!')
+                    welcome_screen()
+                    return False
+                password = input('Please enter password:\n')
+                if password == os.getenv('ADMIN_PASSWORD'):
+                    add_product_prompt()
+                    return False
+                print('Wrong password, Try again\n')
+                attempts = attempts + 1
         print('You need to press "a" or "b"')
 
 
@@ -42,7 +50,7 @@ def add_product_prompt():
     Adds a product to the product catalog by asking the admin to add information
     about that product
     """
-    print("Adding a new product. Please answer following questions:\n")
+    print("\nAdding a new product. Please answer following questions:\n")
     title = input('Enter product title (Press "e" for welcome screen):\n')
     exit_to_main_screen(title)
     description = input(
