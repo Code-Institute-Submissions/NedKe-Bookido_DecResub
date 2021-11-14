@@ -54,6 +54,13 @@ class CapacityReachedException(Exception):
     pass
 
 
+class CustomerAlreadyRegistered(Exception):
+    """
+    Exception to be thrown when a customer has already booked a product
+    """
+    pass
+
+
 def add_booking(product_id, email):
     """
     Creates a booking for a product by adding customer's email to the datastore
@@ -65,6 +72,8 @@ def add_booking(product_id, email):
     product_row = get_product_row(product_id)
     product = product_row.product
     emails = product.emails.split(',') if product.emails != '' else []
+    if email in emails:
+        raise CustomerAlreadyRegistered
     if len(emails) > int(product.capacity) - 1:
         raise CapacityReachedException("capacity reached")
     emails.append(email)
