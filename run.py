@@ -12,6 +12,7 @@ from sheet import list_products, add_booking, add_product_raw, \
     CapacityReachedException, CustomerAlreadyRegistered
 from utils import isValidEmail
 
+load_dotenv()
 
 def welcome_screen():
     """
@@ -29,7 +30,7 @@ def welcome_screen():
             return False
         if chosen_option == 'a':
             password = input('Please enter password:\n')
-            if password == 'password':
+            if password == os.getenv('ADMIN_PASSWORD'):
                 add_product_prompt()
 
             return False
