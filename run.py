@@ -21,7 +21,7 @@ def welcome_screen():
     """
     while True:
         chosen_option = input(
-            'Press "b" to book a product or "a" for admin panel:\n\n')
+            '\nPress "b" to book a product or "a" for admin panel:\n\n')
 
         chosen_option = chosen_option.lower()
 

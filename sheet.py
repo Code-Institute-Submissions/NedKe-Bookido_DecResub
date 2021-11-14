@@ -35,8 +35,8 @@ class Product(BaseModel):
     description: str
     address: str
     capacity: str
-    duration: str
     price: str
+    duration: str
     date: str
     time: str
     emails: str
@@ -171,8 +171,8 @@ def list_products():
                                                description=p['description'],
                                                address=p['address'],
                                                capacity=p['capacity'],
-                                               duration=p['duration'],
                                                price=p['price'],
+                                               duration=p['duration'],
                                                date=p['date'], time=p['time'],
                                                emails=p['emails'])) for i, p in
                     enumerate(products)]
@@ -224,9 +224,9 @@ def add_product_raw(
         title=title,
         description=description,
         address=address,
+        capacity=capacity,
         price=price,
         duration=duration,
-        capacity=capacity,
         date=date,
         time=time,
         emails='')

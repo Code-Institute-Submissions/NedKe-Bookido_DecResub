@@ -17,7 +17,7 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPES)
 
 CAL = build('calendar', 'v3', credentials=CREDS)
 
-CAL_ID = ''
+CAL_ID = 'l3pgnrii459d7a696a9pb0fcco@group.calendar.google.com'
 GMT_OFF = '+01:00'
 
 def add_event(event):
