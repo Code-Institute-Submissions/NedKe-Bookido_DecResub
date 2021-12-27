@@ -318,7 +318,19 @@ ___
 
 **Bug**: When there is no product to show, it was not displaying any useful message
 
-**Fix**: Display a message that there is no product to book at the moment. If you are an admin, add new products.
+**Fix**: Display a message that there is no product to book at the moment. If you are an admin, add new products
+
+---
+
+**Bug**: When user enters empty values, when adding a new product, application breaks
+
+**Fix**: Add valiation functions to check that the values of the inputs are not blank
+
+---
+
+**Bug**: When user enters a product number to book, they can enter empty or not a number and that breaks the application
+
+**Fix**: Add valiation functions to check that the value of the product seleection iniput is not empty or not a number
 
 ---
 
