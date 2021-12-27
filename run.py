@@ -262,6 +262,7 @@ def exit_to_main_screen(user_input):
     """
     if user_input.lower() == 'e':
         welcome_screen()
+    return user_input
 
 
 def exit_to_product_menu(user_input):
