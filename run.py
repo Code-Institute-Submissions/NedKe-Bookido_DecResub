@@ -239,35 +239,37 @@ def customer_flow():
         print(
             f'\nConfirm booking of {selected_product.title} '
             f'on {selected_product.date} at {selected_product.time}?\n')
-        yes_no = input(
-            '(y): Yes, (n): No, (p): Product menu, (e): Welcome screen\n\n')
-        exit_to_product_menu(yes_no)
-        exit_to_main_screen(yes_no)
+        while True:
+            yes_no = input(
+                '(y): Yes, (n): No, (p): Product menu, (e): Welcome screen\n\n')
+            exit_to_product_menu(yes_no)
+            exit_to_main_screen(yes_no)
 
-        if yes_no.lower() == 'y':
-            print('Adding your booking, please wait ...')
-            try:
-                add_booking(chosen_product, customer_email)
-            except CapacityReachedException:
+            if yes_no.lower() == 'y':
+                print('Adding your booking, please wait ...')
+                try:
+                    add_booking(chosen_product, customer_email)
+                except CapacityReachedException:
+                    print(
+                        '\nUnfortunately the capacity for this event is '
+                        'reached.\n')
+                    chosen_input = input(
+                        '(p): Try another product, (e): Welcome screen\n')
+                    exit_to_main_screen(chosen_input)
+                    exit_to_product_menu(chosen_input)
+                except CustomerAlreadyRegistered:
+                    print('You are already booked for this product.')
+                    user_input = input('(p): Product menu, (e): Welcome screen\n')
+                    exit_to_product_menu(user_input)
+                    exit_to_main_screen(user_input)
                 print(
-                    '\nUnfortunately the capacity for this event is '
-                    'reached.\n')
-                chosen_input = input(
-                    '(p): Try another product, (e): Welcome screen\n')
-                exit_to_main_screen(chosen_input)
-                exit_to_product_menu(chosen_input)
-            except CustomerAlreadyRegistered:
-                print('You are already booked for this product.')
-                user_input = input('(p): Product menu, (e): Welcome screen\n')
-                exit_to_product_menu(user_input)
-                exit_to_main_screen(user_input)
-            print(
-                f'You are booked for {selected_product.title} '
-                f'on {selected_product.date} at {selected_product.time}')
-            input('\nPress any key to go to welcome screen:\n')
-            welcome_screen()
-        else:
-            welcome_screen()
+                    f'You are booked for {selected_product.title} '
+                    f'on {selected_product.date} at {selected_product.time}')
+                input('\nPress any key to go to welcome screen:\n')
+                welcome_screen()
+                break
+            else:
+                print("Wrong input. Choose one of the followings:\n")
 
 
 def exit_to_main_screen(user_input):
