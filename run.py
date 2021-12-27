@@ -129,10 +129,11 @@ def get_validated_input(field_label):
     while True:
         field = input(f'\nEnter {field_label} (Press "e" for welcome screen):'
                       f'\n')
+        field = exit_to_main_screen(field)
         if field.strip() == '':
             print(f'{field_label} can not be empty!')
         else:
-            return exit_to_main_screen(field)
+            return field
 
 
 def get_validated_integer_input(field_label, extra_info=None):
@@ -145,12 +146,13 @@ def get_validated_integer_input(field_label, extra_info=None):
     while True:
         field = input(
             f'\nEnter {field_label} {extra} (Press "e" for welcome screen):\n')
+        field = exit_to_main_screen(field)
         try:
             numeric_field = int(field)
             if numeric_field <= 0:
                 print(f'{field_label} should be a number bigger than 0')
             else:
-                return exit_to_main_screen(field)
+                return field
         except ValueError:
             print(f'{field_label} should be a number bigger than 0')
 
@@ -163,12 +165,13 @@ def get_validated_float_input(field_label):
     while True:
         field = input(f'\nEnter {field_label} (Press "e" for welcome screen):'
                       f'\n')
+        field = exit_to_main_screen(field)
         try:
             numeric_field = float(field)
             if numeric_field <= 0:
                 print(f'{field_label} should be a number bigger than 0')
             else:
-                return exit_to_main_screen(field)
+                return field
         except ValueError:
             print(f'{field_label} should be a number bigger than 0')
 
