@@ -40,11 +40,12 @@ Bookido is a service to create new products and services and also be able to boo
         3. [Third Party Libraries](#third-party-libraries)
 8. [Validation](#validation)
 9. [Bugs](#bugs)
-10. [Deployment](#deployment)
+10. [Testing the application inputs](#testing-the-application-inputs)
+11. [Deployment](#deployment)
     1. [Heroku](#heroku)
     2. [Google API](#google-api)
-11. [Credits](#credits)
-12. [Acknowledgments](#acknowledgments)
+12. [Credits](#credits)
+13. [Acknowledgments](#acknowledgments)
 
 ## Project Goals
 
@@ -335,6 +336,20 @@ ___
 ---
 
 </details>
+
+## Testing the application inputs
+
+1. User should not be able to enter blank as input when adding information about the product.
+
+![Empty input validation](/docs/images/empty_input_validation.png)
+
+2. User should not be able to enter string as the capacity, duration and price.
+
+![Number input validation](/docs/images/number_validation.png)
+
+3. When choosing a product, user should not be able to enter bank.
+
+![Number input validation](/docs/images/product_input_validation.png)
 
 ## Deployment
 
