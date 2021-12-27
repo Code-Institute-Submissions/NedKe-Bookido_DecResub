@@ -68,7 +68,7 @@ def add_product_prompt():
 
     while True:
         date = input(
-            f'Enter product date (example: '
+            f'\nEnter product date (example: '
             f'{datetime.now().strftime("%Y-%m-%d")}) '
             f'("e" for welcome screen):\n')
         exit_to_main_screen(date)
@@ -83,7 +83,7 @@ def add_product_prompt():
 
     while True:
         time = input(
-            f'Enter product time (example: '
+            f'\nEnter product time (example: '
             f'{datetime.now().strftime("%H:%M:%S")}) '
             f'("e" for welcome screen):\n')
         exit_to_main_screen(time)
