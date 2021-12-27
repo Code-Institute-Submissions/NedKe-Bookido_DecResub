@@ -76,7 +76,8 @@ def add_product_prompt():
             print(
                 f'Please enter date in the format as this example: '
                 f'{datetime.now().strftime("%Y-%m-%d")}\n')
-        elif datetime.now().date() > datetime.strptime(date, '%Y-%m-%d').date():
+        elif datetime.now().date() \
+                > datetime.strptime(date, '%Y-%m-%d').date():
             print('Enter a date later or equal to today')
         else:
             break
@@ -152,6 +153,7 @@ def get_validated_integer_input(field_label, extra_info=None):
                 return exit_to_main_screen(field)
         except ValueError:
             print(f'{field_label} should be a number bigger than 0')
+
 
 def get_validated_float_input(field_label):
     """
@@ -241,7 +243,8 @@ def customer_flow():
             f'on {selected_product.date} at {selected_product.time}?\n')
         while True:
             yes_no = input(
-                '(y): Yes, (n): No, (p): Product menu, (e): Welcome screen\n\n')
+                '(y): Yes, (n): No, (p): Product menu,'
+                ' (e): Welcome screen\n\n')
             exit_to_product_menu(yes_no)
             exit_to_main_screen(yes_no)
 
@@ -259,7 +262,8 @@ def customer_flow():
                     exit_to_product_menu(chosen_input)
                 except CustomerAlreadyRegistered:
                     print('You are already booked for this product.')
-                    user_input = input('(p): Product menu, (e): Welcome screen\n')
+                    user_input = \
+                        input('(p): Product menu, (e): Welcome screen\n')
                     exit_to_product_menu(user_input)
                     exit_to_main_screen(user_input)
                 print(
