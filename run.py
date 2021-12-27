@@ -54,20 +54,17 @@ def add_product_prompt():
     information about that product
     """
     print("\nAdding a new product. Please answer following questions:\n")
-    title = input('Enter product title (Press "e" for welcome screen):\n')
-    exit_to_main_screen(title)
-    description = input(
-        '\nEnter product description ("e" for welcome screen):\n')
-    exit_to_main_screen(description)
-    address = input('\nEnter product address ("e" for welcome screen):\n')
-    exit_to_main_screen(address)
-    capacity = input('\nEnter product capacity ("e" for welcome screen):\n')
-    exit_to_main_screen(capacity)
-    duration = input(
-        '\nEnter product duration in minutes ("e" for welcome screen):\n')
-    exit_to_main_screen(duration)
-    price = input('\nEnter product price ("e" for welcome screen):\n')
-    exit_to_main_screen(price)
+    title = get_validated_input('Product title')
+
+    description = get_validated_input('Product description')
+
+    address = get_validated_input('Product address')
+
+    capacity = get_validated_integer_input('Product capacity')
+
+    duration = get_validated_integer_input('Product duration', 'in minutes')
+
+    price = get_validated_float_input('Product price')
 
     while True:
         date = input(
@@ -90,7 +87,7 @@ def add_product_prompt():
             f'{datetime.now().strftime("%H:%M:%S")}) '
             f'("e" for welcome screen):\n')
         exit_to_main_screen(time)
-        if not re.match(r'\d{2}:\d{2}:\d{2}', date):
+        if not re.match(r'\d{2}:\d{2}:\d{2}', time):
             print('Please enter time in the format as '
                   'this example: 13:00:00\n')
         if datetime.now() >= datetime.strptime(
@@ -121,6 +118,57 @@ def add_product_prompt():
         exit_to_main_screen(chosen_option)
         if chosen_option == '1':
             add_product_prompt()
+
+
+def get_validated_input(field_label):
+    """
+    Asks user for an input and validates that it's not empty
+    :param field_label: The label for the input
+    """
+    while True:
+        field = input(f'\nEnter {field_label} (Press "e" for welcome screen):'
+                      f'\n')
+        if field.strip() == '':
+            print(f'{field_label} can not be empty!')
+        else:
+            return exit_to_main_screen(field)
+
+
+def get_validated_integer_input(field_label, extra_info=None):
+    """
+    Asks user for an input and validates that it is a number bigger than 0
+    :param field_label: The label for the input
+    :param extra_info: Extra info to include in the prompt
+    """
+    extra = extra_info if extra_info else ''
+    while True:
+        field = input(
+            f'\nEnter {field_label} {extra} (Press "e" for welcome screen):\n')
+        try:
+            numeric_field = int(field)
+            if numeric_field <= 0:
+                print(f'{field_label} should be a number bigger than 0')
+            else:
+                return exit_to_main_screen(field)
+        except ValueError:
+            print(f'{field_label} should be a number bigger than 0')
+
+def get_validated_float_input(field_label):
+    """
+    Asks for user input and validates that it is a float number
+    :param field_label: The label for the input
+    """
+    while True:
+        field = input(f'\nEnter {field_label} (Press "e" for welcome screen):'
+                      f'\n')
+        try:
+            numeric_field = float(field)
+            if numeric_field <= 0:
+                print(f'{field_label} should be a number bigger than 0')
+            else:
+                return exit_to_main_screen(field)
+        except ValueError:
+            print(f'{field_label} should be a number bigger than 0')
 
 
 def customer_flow():
