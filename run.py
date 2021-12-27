@@ -189,17 +189,27 @@ def customer_flow():
     for product_row in products:
         formatted_products_to_choose += \
             f'{product_row.product.id}: {product_row.product.title}\n'
-    print(formatted_products_to_choose)
     chosen_product = None
     while True:
+        print(formatted_products_to_choose)
         chosen_product = input(
             '\nChoose the number in front of the product to book '
             '(e to show main screen):\n')
         exit_to_main_screen(chosen_product)
-        if chosen_product not in list(map(lambda p: p.product.id, products)):
-            print('Wrong entry. Enter the number in front of the product')
+        if chosen_product == '':
+            print('\nWrong entry. Enter the number in front of the product!\n')
         else:
-            break
+            try:
+                chosen_product = int(chosen_product)
+                if int(chosen_product) not in\
+                   list(map(lambda p: p.product.id, products)):
+                    print('\nWrong entry. Enter the number in front of '
+                          'the produc!t\n')
+                else:
+                    break
+            except ValueError:
+                print('\nWrong entry. Enter the number in front of'
+                      ' the product\n')
     selected_product = list(
         filter(
             lambda p: p.product.id == chosen_product,
