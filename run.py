@@ -76,7 +76,7 @@ def add_product_prompt():
             print(
                 f'Please enter date in the format as this example: '
                 f'{datetime.now().strftime("%Y-%m-%d")}\n')
-        if datetime.now().date() > datetime.strptime(date, '%Y-%m-%d').date():
+        elif datetime.now().date() > datetime.strptime(date, '%Y-%m-%d').date():
             print('Enter a date later or equal to today')
         else:
             break
@@ -90,7 +90,7 @@ def add_product_prompt():
         if not re.match(r'\d{2}:\d{2}:\d{2}', time):
             print('Please enter time in the format as '
                   'this example: 13:00:00\n')
-        if datetime.now() >= datetime.strptime(
+        elif datetime.now() >= datetime.strptime(
            f'{date} {time}', '%Y-%m-%d %H:%M:%S'):
             print('Enter a time that is later than current time\n')
         else:
