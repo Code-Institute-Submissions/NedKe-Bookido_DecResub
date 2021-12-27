@@ -224,10 +224,15 @@ def customer_flow():
     print(
         '\nUpon continuing, your information will be saved in '
         'our datastore.\n')
-    chosen_option = input('(a): continue. (p): product menu, '
-                          '(e): welcome screen\n')
-    exit_to_main_screen(chosen_option)
-    exit_to_product_menu(chosen_option)
+    while True:
+        chosen_option = input(
+            '(a): continue. (p): product menu, (e): welcome screen\n')
+        exit_to_main_screen(chosen_option)
+        exit_to_product_menu(chosen_option)
+        if chosen_option in ['a', 'p', 'e']:
+            break
+        else:
+            print("please select the options provided!\n")
 
     if chosen_option == 'a':
         customer_email = get_and_validate_email()
