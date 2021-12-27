@@ -8,7 +8,6 @@ from datetime import datetime, timedelta
 import uuid
 import gspread
 from google.oauth2.service_account import Credentials
-from pydantic import BaseModel
 from gcalendar import add_event, update_event_description
 
 
@@ -27,25 +26,30 @@ products_sheet = SHEET.worksheet('products')
 GMT_OFF = '+01:00'
 
 
-class Product(BaseModel):
-    """Product model holding information about a prouduct in the application"""
-    id: str
-    calendar_id: str
-    title: str
-    description: str
-    address: str
-    capacity: str
-    price: str
-    duration: str
-    date: str
-    time: str
-    emails: str
+class Product:
+    """Product model holding information about a product in the application"""
+    def __init__(self, product_id=None, calendar_id=None, title=None,
+                 description=None, address=None,
+                 capacity=None, duration=None, price=None, date=None,
+                 time=None, emails=None):
+        self.id = product_id
+        self.calendar_id = calendar_id
+        self.title = title
+        self.description = description
+        self.address = address
+        self.capacity = capacity
+        self.duration = duration
+        self.price = price
+        self.date = date
+        self.time = time
+        self.emails = emails
 
 
-class ProductRow(BaseModel):
+class ProductRow:
     """Product row model storing row_num to access product row in the sheet"""
-    row_num: int
-    product: Product
+    def __init__(self, row_num=None, product=None):
+        self.row_num = row_num
+        self.product = product
 
 
 def convert_to_gcalendar_friendly_date(date, time):
@@ -123,7 +127,7 @@ def add_product(product):
     Persists a product in Google sheet and creates an event in Goole calendar
     :param product:  Product that is added by admins
     """
-    product_values = list(product.dict().values())
+    product_values = list(product.__dict__.values())
     products_sheet.append_row(product_values)
     event = {
         'id': product.calendar_id,
@@ -165,7 +169,7 @@ def list_products():
     products = products_sheet.get_all_records()
 
     product_rows = [ProductRow(row_num=i + 2,
-                               product=Product(id=p['id'],
+                               product=Product(product_id=p['id'],
                                                calendar_id=p['calendar_id'],
                                                title=p['title'],
                                                description=p['description'],
@@ -219,7 +223,7 @@ def add_product_raw(
     calendar_id = generate_calendar_id()
     product_id = generate_new_product_id()
     new_product = Product(
-        id=product_id,
+        product_id=product_id,
         calendar_id=calendar_id,
         title=title,
         description=description,
