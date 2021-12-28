@@ -99,7 +99,8 @@ def add_product_prompt():
 
     while True:
         print(
-            f'\nConfirm adding {title} on {date} at {time} with price {price} €:')
+            f'\nConfirm adding {title} on {date} at {time}'
+            f'with price {price} €:')
         confirm = input('(y): Yes, n: (No)\n')
         if confirm.lower() == 'y':
             print("Saving the product please wait ...")
@@ -118,17 +119,17 @@ def add_product_prompt():
             break
         elif confirm.lower() == 'n':
             while True:
-                chosen_option = input('(1): Add new product, (e): main screen\n')
+                chosen_option = input('(1): Add new product, '
+                                      '(e): main screen\n')
                 exit_to_main_screen(chosen_option)
                 if chosen_option == '1':
                     add_product_prompt()
                     break
                 else:
-                    print("Please choose from the options provided!\n")        
+                    print("Please choose from the options provided!\n")
             break
         else:
             print("Please choose from the options provided!\n")
-
 
 
 def get_validated_input(field_label):
