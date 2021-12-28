@@ -72,30 +72,40 @@ def add_product_prompt():
             f'{datetime.now().strftime("%Y-%m-%d")}) '
             f'("e" for welcome screen):\n')
         exit_to_main_screen(date)
-        if not re.match(r'\d{4}-\d{2}-\d{2}', date):
+        try:
+            date_selected = datetime.strptime(date, '%Y-%m-%d').date()
+            if not re.match(r'\d{4}-\d{2}-\d{2}', date):
+                print(
+                    f'Please enter date in the format as this example: '
+                    f'{datetime.now().strftime("%Y-%m-%d")}\n')
+            elif datetime.now().date() > date_selected:
+                print('Enter a date later or equal to today!')
+            else:
+                break
+        except ValueError:
             print(
-                f'Please enter date in the format as this example: '
-                f'{datetime.now().strftime("%Y-%m-%d")}\n')
-        elif datetime.now().date() \
-                > datetime.strptime(date, '%Y-%m-%d').date():
-            print('Enter a date later or equal to today')
-        else:
-            break
+                f'Please enter a valid date in the format as this example: '
+                f'{datetime.now().strftime("%Y-%m-%d")}')
 
     while True:
         time = input(
             f'\nEnter product time (example: '
-            f'{datetime.now().strftime("%H:%M:%S")}) '
+            f'{datetime.now().strftime("%H:%M:%S")})'
             f'("e" for welcome screen):\n')
         exit_to_main_screen(time)
-        if not re.match(r'\d{2}:\d{2}:\d{2}', time):
-            print('Please enter time in the format as '
-                  'this example: 13:00:00\n')
-        elif datetime.now() >= datetime.strptime(
-           f'{date} {time}', '%Y-%m-%d %H:%M:%S'):
-            print('Enter a time that is later than current time\n')
-        else:
-            break
+        try:
+            time_selected = datetime.strptime(
+                f'{date} {time}', '%Y-%m-%d %H:%M:%S')
+            if not re.match(r'\d{2}:\d{2}:\d{2}', time):
+                print('Please enter time in the format as '
+                      'this example: 13:00:00\n')
+            elif datetime.now() >= time_selected:
+                print('Enter a time that is later than current time!\n')
+            else:
+                break
+        except ValueError:
+            print('Please enter a valid time in the format '
+                  'as this example: 13:00:00\n')
 
     while True:
         print(
